@@ -1,0 +1,284 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Naiad design tokens
+
+   Colour scales are theme-relative: a step always plays the same role and its
+   value depends on the theme (the model Radix Colors uses).
+
+     Neutral (slate)                      Accents (cyan, emerald, amber, rose, indigo)
+     950  page background                 950 / 900  tinted backgrounds
+     900  card surface                    800 / 700  borders of tinted elements
+     850  quiet surface (wells)           600 / 500  strong fills and marks
+     800  fills, quiet borders            400        text and icons
+     700  borders, stronger fills         300 / 200  text on a tinted background
+     600  hover borders
+     500  marks and neutral fills (too faint for text in the dark theme)
+     400  muted text: the faintest text
+     300  body text
+     200 / 100 / 50  strong text, headings
+
+   The dark theme is Tailwind's own palette, so only the light theme is spelled
+   out below. Six palettes are theme-relative: slate, cyan, emerald, amber, rose
+   and indigo. Any other Tailwind palette, and `white` and `black`, keep one value
+   in both themes: give a palette its light values here before using it.
+   ========================================================================== */
+
+@theme {
+  /* An in-between neutral step. Tailwind ships 800 and 900 only; this is their oklch midpoint. */
+  --color-slate-850: oklch(24.35% 0.0415 262.893);
+
+  /* Solid buttons, active navigation and other strong marks, with the text colour
+     that is readable on each. Dark theme: bright fills with dark text. */
+  --color-primary: #06b6d4;
+  --color-primary-hover: #22d3ee;
+  --color-on-primary: #04222b;
+  --color-success: #10b981;
+  --color-success-hover: #34d399;
+  --color-on-success: #022c22;
+  --color-warning: #f59e0b;
+  --color-warning-hover: #fbbf24;
+  --color-on-warning: #451a03;
+  --color-danger: #fb7185;
+  --color-danger-hover: #fda4af;
+  --color-on-danger: #4c0519;
+
+  /* The outline of text fields: at least 3:1 against the surfaces fields sit on (WCAG 1.4.11). */
+  --color-control: #62748e;
+  /* The dimmed backdrop behind dialogs and the navigation drawer, and the page background as it
+     looks through it (for the scrollbar's reserved space, which the backdrop cannot cover). */
+  --color-scrim: rgb(2 6 23 / 0.72);
+  --color-scrim-page: #020617;
+
+  /* Type scale: the small end is one pixel larger than Tailwind's, with two steps below it. */
+  --text-3xs: 0.6875rem; /* 11px: badges, table headers */
+  --text-3xs--line-height: 1rem;
+  --text-2xs: 0.75rem; /* 12px: captions */
+  --text-2xs--line-height: 1.0625rem;
+  --text-xs: 0.8125rem; /* 13px: body */
+  --text-xs--line-height: 1.25rem;
+}
+
+:root {
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 14px 32px -18px rgb(0 0 0 / 0.65);
+  --shadow-pop: 0 24px 48px -16px rgb(0 0 0 / 0.7);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+:root:not([data-theme='dark']) {
+  color-scheme: light;
+
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.05), 0 14px 32px -20px rgb(16 24 40 / 0.18);
+  --shadow-pop: 0 24px 48px -16px rgb(16 24 40 / 0.28);
+
+  --color-slate-950: #f3f6fa;
+  --color-slate-900: #ffffff;
+  --color-slate-850: #f8fafc;
+  --color-slate-800: #e9edf3;
+  --color-slate-700: #d3dae4;
+  --color-slate-600: #aeb8c7;
+  --color-slate-500: #5f6b7e;
+  --color-slate-400: #536074;
+  --color-slate-300: #3a4556;
+  --color-slate-200: #263041;
+  --color-slate-100: #1a2333;
+  --color-slate-50: #0f1728;
+
+  --color-primary: #0e7490;
+  --color-primary-hover: #155e75;
+  --color-on-primary: #ffffff;
+  --color-success: #047857;
+  --color-success-hover: #065f46;
+  --color-on-success: #ffffff;
+  --color-warning: #b45309;
+  --color-warning-hover: #92400e;
+  --color-on-warning: #ffffff;
+  --color-danger: #e11d48;
+  --color-danger-hover: #be123c;
+  --color-on-danger: #ffffff;
+  --color-control: #7f8ca1;
+  --color-scrim: rgb(15 23 40 / 0.5);
+  --color-scrim-page: #818791;
+
+  --color-cyan-950: #ecfbfd;
+  --color-cyan-900: #cff5fb;
+  --color-cyan-800: #a5ebf7;
+  --color-cyan-700: #67d9ec;
+  --color-cyan-600: #0e7490;
+  --color-cyan-500: #0891b2;
+  --color-cyan-400: #0e7490;
+  --color-cyan-300: #155e75;
+  --color-cyan-200: #164e63;
+  --color-cyan-100: #083344;
+  --color-cyan-50: #083344;
+
+  --color-emerald-950: #ecfdf5;
+  --color-emerald-900: #d1fae5;
+  --color-emerald-800: #a7f3d0;
+  --color-emerald-700: #6ee7b7;
+  --color-emerald-600: #047857;
+  --color-emerald-500: #059669;
+  --color-emerald-400: #047857;
+  --color-emerald-300: #065f46;
+  --color-emerald-200: #064e3b;
+  --color-emerald-100: #022c22;
+
+  --color-amber-950: #fffbeb;
+  --color-amber-900: #fef3c7;
+  --color-amber-800: #fde68a;
+  --color-amber-700: #fcd34d;
+  --color-amber-600: #b45309;
+  --color-amber-500: #d97706;
+  --color-amber-400: #b45309;
+  --color-amber-300: #92400e;
+  --color-amber-200: #78350f;
+  --color-amber-100: #451a03;
+  --color-amber-50: #451a03;
+
+  --color-rose-950: #fff1f2;
+  --color-rose-900: #ffe4e6;
+  --color-rose-800: #fecdd3;
+  --color-rose-700: #fda4af;
+  --color-rose-600: #e11d48;
+  --color-rose-500: #f43f5e;
+  --color-rose-400: #d11643;
+  --color-rose-300: #be123c;
+  --color-rose-200: #9f1239;
+  --color-rose-100: #881337;
+
+  --color-indigo-950: #eef2ff;
+  --color-indigo-900: #e0e7ff;
+  --color-indigo-800: #c7d2fe;
+  --color-indigo-700: #a5b4fc;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-500: #6366f1;
+  --color-indigo-400: #4f46e5;
+  --color-indigo-300: #4338ca;
+  --color-indigo-200: #3730a3;
+  --color-indigo-100: #312e81;
+
+}
+
+@layer base {
+  html {
+    background-color: var(--color-slate-950);
+    /* Keep the scrollbar's space reserved, so opening a dialog does not shift the page. */
+    scrollbar-gutter: stable;
+  }
+
+  /* The page behind an open dialog or drawer does not scroll. */
+  html:has([aria-modal='true']) {
+    overflow: hidden;
+    background-color: var(--color-scrim-page);
+  }
+
+  body {
+    background-color: var(--color-slate-950);
+    color: var(--color-slate-300);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  /* One focus ring for every control, visible on any surface in both themes. */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    padding: 0.05em 0.3em;
+    border-radius: 0.3em;
+    background-color: var(--color-slate-800);
+    color: var(--color-slate-200);
+  }
+}
+
+/* A card: the standard raised surface. Add padding where it is used. */
+@utility card {
+  background-color: var(--color-slate-900);
+  border: 1px solid var(--color-slate-800);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* The shadow of things that float above the page: dialogs, menus, toasts. */
+@utility shadow-pop {
+  box-shadow: var(--shadow-pop);
+}
+
+/* A quiet block inside a card: list rows, key-value panels. */
+@utility well {
+  background-color: var(--color-slate-850);
+  border: 1px solid var(--color-slate-800);
+  border-radius: 0.75rem;
+}
+
+/* A small status pill. Pair it with a tone: "badge bg-emerald-950 text-emerald-300 border-emerald-800". */
+@utility badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1875rem 0.5rem;
+  border-width: 1px;
+  border-radius: 9999px;
+  font-size: var(--text-3xs);
+  line-height: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* The square icon holder at the start of page headers and stat cards. Pair it with a tone. */
+@utility tile {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-width: 1px;
+  border-radius: 0.75rem;
+}
+
+/* Enter animation: `animate-in` plays once, the modifiers below set where it starts from,
+   and `duration-*` sets how long it takes. */
+@utility animate-in {
+  animation: naiad-enter var(--tw-duration, 150ms) ease-out both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@utility fade-in {
+  --tw-enter-opacity: 0;
+}
+
+@utility zoom-in-95 {
+  --tw-enter-scale: 0.95;
+}
+
+@utility slide-in-from-bottom-2 {
+  --tw-enter-translate-y: 0.5rem;
+}
+
+@utility slide-in-from-left {
+  --tw-enter-translate-x: -1rem;
+}
+
+@keyframes naiad-enter {
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0)) scale(var(--tw-enter-scale, 1));
+  }
+}
