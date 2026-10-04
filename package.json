@@ -1,0 +1,46 @@
+{
+  "name": "naiad",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "tsx server.ts",
+    "start": "node server.ts",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --import tsx --test \"src/**/__tests__/*.{ts,tsx}\" \"test/integration/*.ts\"",
+    "test:e2e": "playwright test",
+    "lint": "tsc --noEmit",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:restore-test": "tsx scripts/test-restore.ts",
+    "clean": "rm -rf dist",
+    "zip": "python3 scripts/create-zip.py"
+  },
+  "dependencies": {
+    "@sentry/node": "^11.4.0",
+    "@sentry/react": "^11.4.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "canvas-confetti": "^1.9.4",
+    "express": "^4.21.2",
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "vite": "^8.3.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^7.0.2"
+  }
+}

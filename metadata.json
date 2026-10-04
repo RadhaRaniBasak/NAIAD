@@ -1,0 +1,7 @@
+{
+  "name": "Naiad - Stream Citizen Science",
+  "description": "The stream asks. A neighbour answers. Demand-pull citizen science for urban streams, built for OneAquaHealth IEEE Global Hackathon 2026.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
